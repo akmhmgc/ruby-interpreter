@@ -17,6 +17,9 @@ def evaluate(tree, env = {})
     env[tree[1]] = evaluate(tree[2], env)
   when 'var_ref'
     env[tree[1]]
+  when 'if'
+    # インタプリタの本質は、ターゲット言語の言語機能を、ホス言語の機能に丸投げすること
+    evaluate(tree[1], env) ? evaluate(tree[2], env) : evaluate(tree[3], env)
   else
     left = evaluate(tree[1], env)
     right = evaluate(tree[2], env)
