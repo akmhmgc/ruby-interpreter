@@ -1,8 +1,5 @@
-if 2 < 0
-  p 1
-else
-  p 0
+i = 0
+while i < 5
+  p i
+  i = i + 1
 end
-
-
-1 + 2 * 4 + 9

@@ -20,6 +20,10 @@ def evaluate(tree, env = {})
   when 'if'
     # インタプリタの本質は、ターゲット言語の言語機能を、ホス言語の機能に丸投げすること
     evaluate(tree[1], env) ? evaluate(tree[2], env) : evaluate(tree[3], env)
+  when 'while'
+    while evaluate(tree[1], env)
+      evaluate(tree[2], env)
+    end
   else
     left = evaluate(tree[1], env)
     right = evaluate(tree[2], env)
