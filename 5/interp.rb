@@ -11,7 +11,13 @@ def evaluate(tree, lenv = {}, genv={ "p" => ["builtin", "p"]})
     when 'builtin'
       send(mhd[1], *args)
     when 'user_defined'
+      mhd[1].each do |var|
+        lenv[var] = args.shift
+      end
+      evaluate(mhd[2], lenv, genv)
     end
+  when 'func_def'
+    genv[tree[1]] = ["user_defined", tree[2], tree[3]]
   when 'stmts'
     last = nil
     tree[1..-1].each do |statement|
