@@ -11,10 +11,11 @@ def evaluate(tree, lenv = {}, genv={ "p" => ["builtin", "p"]})
     when 'builtin'
       send(mhd[1], *args)
     when 'user_defined'
+      new_lenv = {}
       mhd[1].each do |var|
-        lenv[var] = args.shift
+        new_lenv[var] = args.shift
       end
-      evaluate(mhd[2], lenv, genv)
+      evaluate(mhd[2], new_lenv, genv)
     end
   when 'func_def'
     genv[tree[1]] = ["user_defined", tree[2], tree[3]]
