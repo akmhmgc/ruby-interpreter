@@ -9,7 +9,7 @@ def evaluate(tree, lenv = {}, genv={ "p" => ["builtin", "p"]})
     mhd = genv[tree[1]]
     case mhd[0]
     when 'builtin'
-      minruby_call(mhd[1], args)
+      send(mhd[1], *args)
     when 'user_defined'
     end
   when 'stmts'
