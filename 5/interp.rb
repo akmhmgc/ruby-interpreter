@@ -23,4 +23,4 @@ end
 
 str = minruby_load
 tree = minruby_parse(str)
-answer = evaluate(tree)
+evaluate(tree)
