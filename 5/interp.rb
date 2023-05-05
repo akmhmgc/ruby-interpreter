@@ -30,6 +30,27 @@ def evaluate(tree, lenv = {}, genv={ "p" => ["builtin", "p"]})
     lenv[tree[1]] = evaluate(tree[2], lenv, genv)
   when 'var_ref'
     lenv[tree[1]]
+  when 'ary_new'
+    ary = []
+    tree[1..-1].each {|element| ary << evaluate(element, lenv, genv)}
+    ary
+  when 'ary_ref'
+    ary = evaluate(tree[1], lenv, genv)
+    idx = evaluate(tree[2], lenv, genv)
+    ary[idx]
+  when 'ary_assign'
+    ary = evaluate(tree[1], lenv, genv)
+    idx = evaluate(tree[2], lenv, genv)
+    val = evaluate(tree[3], lenv, genv)
+    ary[idx] = val
+  when 'hash_new'
+    hash = {}
+    ((tree.size - 1)/2).times do |i|
+      key = evaluate(tree[i + 1], lenv, genv)
+      val = evaluate(tree[i + 2], lenv, genv)
+      hash[key] = val
+    end
+    hash
   when 'if'
     # インタプリタの本質は、ターゲット言語の言語機能を、ホス言語の機能に丸投げすること
     evaluate(tree[1], lenv, genv) ? evaluate(tree[2], lenv, genv) : evaluate(tree[3], lenv, genv)
